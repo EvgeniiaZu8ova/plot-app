@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import { IResponse, getData } from "./utils/getData";
+
+const T10Y2Y = "T10Y2Y";
+const GDPCA = "GDPCA";
+const DGS10 = "DGS10";
+const T10YIE = "T10YIE";
+
+// @ts-ignore
+const api_key = process.env.API_KEY;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data_T10Y2Y, setData_T10Y2Y] = useState<IResponse | null>(null);
+  const [data_GDPCA, setData_GDPCA] = useState<IResponse | null>(null);
+  const [data_DGS10, setData_DGS10] = useState<IResponse | null>(null);
+  const [data_T10YIE, setData_T10YIE] = useState<IResponse | null>(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  useEffect(() => {
+    Promise.all([
+      getData({ series_id: T10Y2Y }),
+      getData({ series_id: GDPCA }),
+      getData({ series_id: DGS10 }),
+      getData({ series_id: T10YIE }),
+    ])
+      .then((res) => {
+        setData_T10Y2Y(res[0]);
+        setData_GDPCA(res[1]);
+        setData_DGS10(res[2]);
+        setData_T10YIE(res[3]);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
+  return <></>;
 }
 
-export default App
+export default App;
