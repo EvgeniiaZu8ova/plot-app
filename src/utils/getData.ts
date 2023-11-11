@@ -3,34 +3,33 @@ import { api } from "./api";
 // @ts-ignore
 const api_key = process.env.API_KEY;
 
-interface ISeriess {
-  id: string;
+interface IObservation {
   realtime_start: string;
   realtime_end: string;
-  title: string;
-  observation_start: string;
-  observation_end: string;
-  frequency: string;
-  frequency_short: string;
-  units: string;
-  units_short: string;
-  seasonal_adjustment: string;
-  seasonal_adjustment_short: string;
-  last_updated: string;
-  popularity: number;
-  notes: string;
+  date: string;
+  value: string;
 }
 
-export interface IResponse {
+interface IResponse {
   realtime_start: string;
   realtime_end: string;
-  seriess: ISeriess[];
+  observation_start: string;
+  observation_end: string;
+  units: string;
+  output_type: number;
+  file_type: "xml" | "json" | "txt" | "xls";
+  order_by: string;
+  sort_order: "asc" | "desc";
+  count: number;
+  offset: number;
+  limit: number;
+  observations: IObservation[];
 }
 
 export const getData = async ({ series_id }: { series_id: string }) => {
   return (
     await api.get<IResponse>(
-      `/series?series_id=${series_id}&api_key=${api_key}&file_type=json`
+      `/series/observations?series_id=${series_id}&api_key=${api_key}&observation_start=2003-11-10&frequency=a&file_type=json`
     )
   )?.data;
 };
