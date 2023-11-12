@@ -1,9 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://api.stlouisfed.org/fred",
-      "methods": ["GET"]
-    }
-  ]
-}
