@@ -1,9 +1,8 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://api.stlouisfed.org/fred",
-      "methods": ["GET"]
+      "source": "/api/:path*",
+      "destination": "https://api.stlouisfed.org/fred/:path*"
     }
   ]
 }
